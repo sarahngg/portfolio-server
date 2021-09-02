@@ -1,20 +1,25 @@
-const http = require('http')
+const express = require('express');
+const app = express();
+const port = 5000;
 
-const server = http.createServer((req, res) => {
-  const { url, method } = req;
-  console.log(`${method} ${url}`)
-  if (url === '/') {
-    res.writeHead(200, {'content-type': 'text/html'})
-    res.write('<h1>Home</h1><div>Made possible by setting <tt>\'content-type\': \'text/html\'</tt></div>')
-  } else if (url === '/contact') {
-    res.writeHead(200, {'content-type': 'text/html'})
-    res.write('<h1>Contact</h1>')
-  } else {
-    res.writeHead(404, {'content-type': 'text/html'})
-    res.write('<h1>Page not found :(</h1>')
-  }
-  res.end()
+app.get('/', (req, res) => {
+  console.log(`${req.method} ${req.url}`);
+  res.status(200).send('<h1>Home</h1><div>Using Express</div>');
 })
 
-server.listen(5000)
+app.get('/contact', (req, res) => {
+  console.log(`${req.method} ${req.url}`);
+  /** can also rely on express to set status */
+  res.send('<h1>Contact</h1><div>Using Express</div>');
+})
+
+/** covers all methods at all paths */
+app.all('*', (req, res) => {
+  console.log(`${req.method} ${req.url}`);
+  res.status(404).send('<h1>Page not found :(</h1>');
+})
+
+app.listen(port, () => {
+  console.log(`server is listening on port ${port}`);
+})
 
