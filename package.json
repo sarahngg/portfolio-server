@@ -1,0 +1,15 @@
+{
+  "name": "portfolio-server",
+  "version": "1.0.0",
+  "description": "portfolio-server",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
