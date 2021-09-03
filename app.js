@@ -1,11 +1,11 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
-const logger = require('./logger');
 const { users } = require('./database');
 const port = 5000;
 
 /** must put middleware before the methods */
-app.use(logger);
+app.use(morgan('tiny'));
 
 app.get('/', (req, res) => {
   console.log(`${req.method} ${req.url}`);
