@@ -2,6 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();
 const { users } = require('./database');
+const connectDB = require('./db/connect');
+require('dotenv').config();
 
 const { 
   getSections,
@@ -33,6 +35,16 @@ app.all('*', (req, res) => {
   return res.status(404).send('<h1>Page not found :(</h1>');
 })
 
-app.listen(port, () => {
-  console.log(`server is listening on port ${port}`);
-})
+/** only spin up server if db connects */
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(port, () => {
+      console.log(`server is listening on port ${port}`);
+    })
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+start();
