@@ -16,7 +16,10 @@ const UserSchema = new mongoose.Schema({
   tagline: String,
   siteTitle: String,
   sections: [mongoose.ObjectId],
-  items: [mongoose.ObjectId]
+  items: {
+    type: Map,
+    of: mongoose.ObjectId
+  }
 })
 
 module.exports = mongoose.model('User', UserSchema)

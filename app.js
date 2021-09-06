@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser')
 const { users } = require('./database');
@@ -19,6 +20,7 @@ const {
 
 const { 
   getItem,
+  getAllItemsOfSection,
   createItem,
 } = require('./controllers/itemsController');
 
@@ -26,6 +28,7 @@ const port = 5000;
 
 /** must put middleware before the methods */
 app.use(morgan('tiny'));
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
@@ -34,12 +37,13 @@ app.get('/', (req, res) => {
 })
 
 app.post('/api/items/', createItem)
+app.get('/api/items/', getAllItemsOfSection)
 app.get('/api/items/:itemId', getItem)
 
 app.get('/api/users/:userId', getUser)
 app.post('/api/users/', createUser)
 
-app.get('/api/sections/', getAllSections)
+// app.get('/api/sections/', getAllSections)
 app.get('/api/sections/:sectionId', getSection)
 app.post('/api/sections/', createSection)
 
