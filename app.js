@@ -1,19 +1,22 @@
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
+const bodyParser = require('body-parser')
 const { users } = require('./database');
 const connectDB = require('./db/connect');
 require('dotenv').config();
 
 const { 
-  getSections,
-  getSection
+  getAllSections,
+  getSection,
+  createSection
 } = require('./controllers/sections');
 
 const port = 5000;
 
 /** must put middleware before the methods */
 app.use(morgan('tiny'));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   console.log(`${req.method} ${req.url}`);
@@ -26,8 +29,9 @@ app.get('/api/users/:userId', (req, res) => {
   return userData ? res.json(userData) : res.status(404).send('Cannot find user');
 })
 
-app.get('/api/users/:userId/sections', getSections)
-app.get('/api/users/:userId', getSection)
+app.get('/api/sections/', getAllSections)
+app.get('/api/sections/:sectionId', getSection)
+app.post('/api/sections/', createSection)
 
 /** covers all methods at all paths */
 app.all('*', (req, res) => {
