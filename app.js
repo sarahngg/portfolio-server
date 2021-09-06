@@ -9,8 +9,18 @@ require('dotenv').config();
 const { 
   getAllSections,
   getSection,
-  createSection
-} = require('./controllers/sections');
+  createSection,
+} = require('./controllers/sectionsController');
+
+const { 
+  getUser,
+  createUser,
+} = require('./controllers/usersController');
+
+const { 
+  getItem,
+  createItem,
+} = require('./controllers/itemsController');
 
 const port = 5000;
 
@@ -23,15 +33,16 @@ app.get('/', (req, res) => {
   res.json();
 })
 
-app.get('/api/users/:userId', (req, res) => {
-  const { userId } = req.params;
-  const userData = users.find((user) => user.id === userId);
-  return userData ? res.json(userData) : res.status(404).send('Cannot find user');
-})
+app.post('/api/items/', createItem)
+app.get('/api/items/:itemId', getItem)
+
+app.get('/api/users/:userId', getUser)
+app.post('/api/users/', createUser)
 
 app.get('/api/sections/', getAllSections)
 app.get('/api/sections/:sectionId', getSection)
 app.post('/api/sections/', createSection)
+
 
 /** covers all methods at all paths */
 app.all('*', (req, res) => {

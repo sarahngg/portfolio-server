@@ -14,6 +14,7 @@ const SectionSchema = new mongoose.Schema({
     trim: true,
     maxLength: [40, 'description cannot be more than 40 characters'],
   },
+  items: [mongoose.ObjectId]
 })
 
 module.exports = mongoose.model('Section', SectionSchema)
