@@ -1,8 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const compression = require('compression');
+const helmet = require('helmet');
 const app = express();
-const bodyParser = require('body-parser')
 const connectDB = require('./db/connect');
 require('dotenv').config();
 
@@ -28,7 +29,10 @@ const port = 5000;
 /** must put middleware before the methods */
 app.use(morgan('tiny'));
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(compression()); 
+app.use(helmet());
 
 app.get('/', (req, res) => {
   console.log(`${req.method} ${req.url}`);
