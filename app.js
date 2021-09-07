@@ -24,7 +24,7 @@ const {
   createItem,
 } = require('./controllers/itemsController');
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 /** must put middleware before the methods */
 app.use(morgan('tiny'));
