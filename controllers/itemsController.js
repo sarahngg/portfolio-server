@@ -1,5 +1,4 @@
 const Item = require('../models/Item');
-const Section = require('../models/Section');
 
 const getItem = async (req, res) => {
   try {
@@ -18,15 +17,11 @@ const getItemHelper = async itemId => {
   return item;
 }
 
-const getAllItemsOfSection = async (req, res) => {
+const getItems = async (req, res) => {
   try {
-    const { sectionId } = req.query;
-    const section = await Section.findOne({_id: sectionId});
-    if (!section) return res.status(404).json({msg: `No section with id: ${sectionId}`})
-    const { items } = section;
-    Promise.all(items.map(async itemId => {
+    const { itemIds } = req.query;
+    Promise.all(itemIds.map(async itemId => {
       return await getItemHelper(itemId);
-      // if (!item) return res.status(404).json({msg: `No item with id: ${itemId}`})
     })).then(arr => {
       res.status(200).json({ items: arr });
     }).catch(err => {
@@ -49,6 +44,6 @@ const createItem = async (req, res) => {
 
 module.exports = { 
   getItem,
-  getAllItemsOfSection,
+  getItems,
   createItem
 };

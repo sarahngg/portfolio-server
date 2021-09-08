@@ -20,7 +20,7 @@ const {
 
 const { 
   getItem,
-  getAllItemsOfSection,
+  getItems,
   createItem,
 } = require('./controllers/itemsController');
 
@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/api/items/', createItem)
-app.get('/api/items/', getAllItemsOfSection)
+app.get('/api/items/', getItems)
 app.get('/api/items/:itemId', getItem)
 
 app.get('/api/users/:userId', getUser)
