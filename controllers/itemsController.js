@@ -23,7 +23,9 @@ const getItems = async (req, res) => {
     Promise.all(itemIds.map(async itemId => {
       return await getItemHelper(itemId);
     })).then(arr => {
-      res.status(200).json({ items: arr });
+      let response = {};
+      arr.forEach(item => response[item._id] = item);
+      res.status(200).json({ items: response });
     }).catch(err => {
       throw new Error("error getting item");
     })
